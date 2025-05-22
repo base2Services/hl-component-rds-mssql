@@ -15,12 +15,12 @@ CloudFormation do
       IpProtocol: 'TCP',
       ToPort: 1433,
     }
-    if rule['security_group_id']
+    if defined? rule['security_group_id']
       sg_rule['SourceSecurityGroupId'] = FnSub(rule['security_group_id'])
     else 
       sg_rule['CidrIp'] = FnSub(rule['ip']) 
     end
-    if rule['desc']
+    if defined? rule['desc']
       sg_rule['Description'] = FnSub(rule['desc'])
     end
     ingress << sg_rule
@@ -120,13 +120,14 @@ CloudFormation do
   backup_window = external_parameters.fetch(:backup_window, nil)
   backup_retention_period = external_parameters.fetch(:backup_retention_period, nil)
   allow_major_version_upgrade = external_parameters.fetch(:allow_major_version_upgrade, nil)
+  storage_type = external_parameters.fetch(:storage_type, 'gp2')
 
   RDS_DBInstance 'RDS' do
     AllowMajorVersionUpgrade allow_major_version_upgrade unless allow_major_version_upgrade.nil?
     DeletionPolicy deletion_policy if defined? deletion_policy
     DBInstanceClass Ref('RDSInstanceType')
     AllocatedStorage Ref('RDSAllocatedStorage')
-    StorageType 'gp2'
+    StorageType storage_type
     Engine engine
     EngineVersion engine_version
     DBParameterGroupName Ref('ParametersRDS')
