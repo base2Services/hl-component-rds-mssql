@@ -9,6 +9,7 @@ CloudFormation do
   extra_tags.each { |key,value| tags << { Key: key, Value: value } } if defined? extra_tags
 
   ingress = []
+  security_group_rules = external_parameters.fetch(:security_group_rules, {})
   security_group_rules.each do |rule|
     sg_rule = {
       FromPort: 1433,
