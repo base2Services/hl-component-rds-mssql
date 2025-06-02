@@ -120,10 +120,12 @@ CloudFormation do
   backup_window = external_parameters.fetch(:backup_window, nil)
   backup_retention_period = external_parameters.fetch(:backup_retention_period, nil)
   allow_major_version_upgrade = external_parameters.fetch(:allow_major_version_upgrade, nil)
+  timezone = external_parameters.fetch(:timezone, nil)
 
   RDS_DBInstance 'RDS' do
     AllowMajorVersionUpgrade allow_major_version_upgrade unless allow_major_version_upgrade.nil?
     DeletionPolicy deletion_policy if defined? deletion_policy
+    Timezone timezone unless timezone.nil?
     DBInstanceClass Ref('RDSInstanceType')
     AllocatedStorage Ref('RDSAllocatedStorage')
     StorageType 'gp2'

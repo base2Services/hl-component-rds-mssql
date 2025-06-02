@@ -48,3 +48,7 @@ storage_encrypted: false
 
 #parameter to allow major version upgrades
 #allow_major_version_upgrade: true
+
+#Timezone for the mssql server
+#https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-reqs-limits-MS.TimeZone.html
+# timezone: "AUS Eastern Standard Time"
